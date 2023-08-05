@@ -3,7 +3,9 @@ from .common import *
 
 DEBUG = True
 SECRET_KEY = 'django-insecure-*m64rwzj!wgb%ejjtxc9n+p@^squ$95gtvjs-$npg%rd*nl*k_'
-
+ROOT_URLCONF = 'vercel_app.urls'
+WSGI_APPLICATION = 'vercel_app.wsgi.app'
+ALLOWED_HOSTS = ['35.182.169.92','.vercel.app', '127.0.0.1']
 
 
 DATABASES = {
