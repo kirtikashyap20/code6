@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load has_group %}
+{% load mathfilters %}
+{% block content %}
+<script>
+    function myFunction() {
+      const element = document.getElementById("html5-extension");
+      element.getElementsByTagName("tr").style.background = "red";
+    }
+</script>
+        <!--  BEGIN CONTENT AREA  -->
+        <div id="content" class="main-content">
+            <div class="layout-px-spacing">
+                
+                <div class="row layout-top-spacing" id="cancel-row">
+                    <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
+                        <div class="widget-header text-center mb-3">
+                            <h3>Repaired Chassis - {{ count }}</h3>
+                         </div>
+                        <div class="widget-content widget-content-area br-6">
+                            <table id="html5-extension" class="table table-striped non-hover text-center" style="width:100%">
+                                <thead class="bg-success">
+                                    <tr>
+                                        <th class="dt-no-sorting">Action</th>
+                                        <th>Chassis Number</th>
+                                        <th>Reported on</th>
+                                        <th>Unit Number</th>
+                                        <th>Chassis Problem</th>
+                                        <th>location</th>
+                                        <th>Tag Number</th>
+                                        <th>assignment</th>
+                                        <th>image</th>
+                                        <th>eta</th>
+                                        <th>repaired by</th>
+                                        <th>repair date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for data in data %}
+                                    <tr>
+                                        <td>
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-primary btn-sm dropdown-toggle dropdown-toggle-split" id="dropdownMenuReference1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-reference="parent">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                                </button>
+
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuReference1">
+                                                    <a class="dropdown-item" href="#">View Job</a>
+
+                                                    {% if request.user|has_group:"admin" or request.user|has_group:"dispatch" %}
+                                                        <a class="dropdown-item" href="{% url 'update_chassis_corr' data.id %}">Edit</a>
+                                                    {% endif %}
+
+                                                    {% if request.user|has_group:"admin" %}
+                                                        <div class="dropdown-divider"></div>
+                                                        <form action="{% url 'delete_chassis_corr' data.id %}" method="post">
+                                                            {% csrf_token %}
+                                                            <button class="ml-3 btn btn-sm btn-danger  warning confirm">Delete Job</button>
+                                                        </form>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>{{ data.chassis_number }}</td>
+                                        <td>{{ data.added_on  }}</td>
+                                        <td>{{ data.unit_number   }}</td>
+                                        <td>{{ data.chassis_problem }}</td>
+                                        <td>{{ data.location }}</td>
+                                        <td>{{ data.tag_number  }}</td>
+                                        <td>{{ data.assignment  }}</td>
+                                        <td>
+                                            <a href="{{ data.dmg_img.url  }}" target="_blank">
+                                                <img src="{{ data.dmg_img.url  }}" class="" style="width:50px;">
+                                            </a>
+                                        </td>
+                                        <td>{{ data.eta  }}</td>
+                                        <td>{{ data.repaired_by  }}</td>
+                                        <td>{{ data.corr_on  }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            
+                                
+                            </table>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+        <!--  END CONTENT AREA  -->
+
+        
+
+
+
+{% endblock content %}

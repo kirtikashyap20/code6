@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load has_group %}
+{% block content %}
+
+        <!--  BEGIN CONTENT AREA  -->
+        <div id="content" class="main-content users text-center">
+            <div class="layout-px-spacing">
+                
+                <div class="row layout-top-spacing" id="cancel-row">
+                    <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
+                        <div class="widget-header mb-3">
+                            <h3>users</h3>
+                            <span class="badge badge-info badge-pill">{{ count }} users</span>
+                         </div>
+                        <div class="widget-content widget-content-area br-6">
+                            
+                                    <ul class="list-inline badge-collapsed-img">
+                                        {% for user in status %}
+                                        <li class="list-inline-item chat-online-usr">
+                                            <span class="badge badge-success badge-pill">{{user.user.username}}</span>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                    
+                           
+                            <table id="html5-extension" class="table table-striped table-hover non-hover text-center" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th class="dt-no-sorting">Action</th>
+                                        <th>Image</th>
+                                        <th>user</th>
+                                        <th>last login</th>
+                                        <th>email</th>
+                                        <th>phone</th>
+                                        <th>Created on</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for user in users %}
+                                    <tr>
+                                        <td>
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-primary btn-sm dropdown-toggle dropdown-toggle-split" id="dropdownMenuReference1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-reference="parent">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                                </button>
+
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuReference1">
+                                                    <a class="dropdown-item" href="{% url 'detail_user' user.id %}">View Profile</a>
+                                                    <a class="dropdown-item" href="">clock in details</a>
+                                                </div>
+                                                </div>
+                                        </td>
+                                        <td><img src="{{ user.profile.avatar.url }}" class="img-responsive rounded-circle" alt="avatar" style="width:60px; height:60px;"></td>
+                                        <td>{{ user.username }}</td>
+                                        <td>{{ user.last_login }}</td>
+                                        <td>{{ user.email }}</td>
+                                        <td>{{ user.profile.phone }}</td>
+                                        <td>{{ user.date_joined }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            
+                        
+                            
+                        </div>
+                    </div>
+
+                </div>
+
+                </div>
+        
+        </div>
+        <!--  END CONTENT AREA  -->
+
+        
+
+{% endblock content %}

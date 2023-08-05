@@ -1,0 +1,323 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load has_group %}
+{% block content %}
+
+        <!--  BEGIN CONTENT AREA  -->
+        <div id="content" class="main-content">
+            <div class="layout-px-spacing">
+                
+                <div class="row layout-top-spacing" id="cancel-row">
+                    
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="widget widget-table-two">
+                            <div class="widget-heading">
+                                <div class="dashboard-card-btn">
+                                    <h5 class="mt-4">Search</h5>
+                                </div>
+                            </div>
+
+                            <div class="widget-content">
+
+                                <form class="form-vertical" action="{% url 'search_container_out_gate' %}" method="GET" value="{{request.GET}}">
+                                    <div class="form-row mb-4">
+                                        <div class="form-group col-md-2">
+                                            <label for="inputEmail4">Container Number</label>
+                                            <input name="container_number" value="{{request.GET.container_number}}" class="form-control" type="text" placeholder="">
+                                        </div>
+                                        <div class="form-group col-md-2">
+                                            <label for="inputEmail4">Yard Location</label>
+                                            <input name="yard_location" value="{{request.GET.yard_location}}" class="form-control" type="text" placeholder="">
+                                        </div>
+                                        <div class="form-group col-md-2">
+                                            <label for="inputEmail4">From Enter Date</label>
+                                            <input id="basicFlatpickr" name="efrom" value="{{request.GET.efrom}}" class="form-control flatpickr flatpickr-input active" type="text" placeholder="Select Date..">
+                                        </div>
+                                        <div class="form-group col-md-2">
+                                            <label for="inputPassword4">To enter date</label>
+                                            <input id="fromdate" name="eto" value="{{request.GET.eto}}" class="form-control flatpickr flatpickr-input active" type="text" placeholder="Select Date..">
+                                        </div>                                    
+                                        <div class="form-group col-md-2">
+                                            <label for="inputEmail4">Container status</label>
+                                            <input name="container_status" value="{{request.GET.container_status}}" class="form-control" type="text" placeholder="">
+                                        </div>
+                                        <div class="form-group col-md-2">
+                                            <label for="inputEmail4">Steamship</label>
+                                            <input name="steamshiping_line" value="{{request.GET.steamshiping_line}}" class="form-control" type="text" placeholder="">
+                                        </div>
+                                        {% comment %} <div class="form-group col-md-2">
+                                            <label for="inputEmail4">Steamship</label>
+                                            <select name="steamshiping_line" value="{{request.GET.steamshiping_line}}" class="selectpicker form-control">
+                                                <option value = "">n/a</option>
+                                                {% for results in shipping_name %}
+                                                <option value = "{{results.shipping_name }}">{{results.shipping_name}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>                                   {% endcomment %}
+                                        <div class="form-group col-md-2">
+                                            <label for="dfrom">From Delivery Date</label>
+                                            <input id="dfrom" name="dfrom" value="{{request.GET.dfrom}}" class="form-control flatpickr flatpickr-input active" type="text" placeholder="Select Date..">
+                                        </div>
+                                        <div class="form-group col-md-2">
+                                            <label for="dto">To Delivery date</label>
+                                            <input id="dto" name="dto" value="{{request.GET.dto}}" class="form-control flatpickr flatpickr-input active" type="text" placeholder="Select Date..">
+                                        </div>
+                                        <div class="form-group col-md-2">
+                                            <label for="ofrom">From Out Date</label>
+                                            <input id="ofrom" name="ofrom" value="{{request.GET.ofrom}}" class="form-control flatpickr flatpickr-input active" type="text" placeholder="Select Date..">
+                                        </div>
+                                        <div class="form-group col-md-2">
+                                            <label for="oto">To out date</label>
+                                            <input id="oto" name="oto" value="{{request.GET.oto}}" class="form-control flatpickr flatpickr-input active" type="text" placeholder="Select Date..">
+                                        </div>
+                                    </div>
+                                    <input type="submit" name="submit" value="Search" class="btn btn-primary"/>
+                                    <a class="btn btn-info ml-3" href="{% url 'container_out_gate' %}">Clear search</a>
+                                 </form>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    {% if submitbutton == 'Search' %}
+                     {% if results %}
+
+
+                     <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
+                        <div class="widget-header">
+                            <div class="row">
+                               <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                  <h5>search results for Out Gate Information - {{ search_count }}</h5>
+                               </div>
+                            </div>
+                         </div>
+                        <div class="widget-content widget-content-area br-6">
+                            <table id="html5-extension" class="table table-striped table-hover non-hover text-center" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        {% if request.user|has_group:"admin" or request.user|has_group:"dispatch" %}
+                                        <th class="dt-no-sorting">Action</th>
+                                        {% endif %}
+                                        {% if request.user|has_group:"admin" %}
+                                        <th>User</th>
+                                        {% endif %}
+                                        <th>Container Number</th>
+                                        <th>Enter Date</th>
+                                        <th>Trucking  Company</th>
+                                        <th>Truck Number</th>
+                                        <th>Chassis Number(Out)</th>
+                                        <th>Notes</th>
+                                        
+                                        <th>Days</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for container in results %}
+                                    <tr>
+                                        {% if request.user|has_group:"admin" or request.user|has_group:"dispatch" %}
+                                        <td>
+                                            
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-dark btn-sm dropdown-toggle dropdown-toggle-split" id="dropdownMenuReference1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-reference="parent">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuReference1">
+                                                    {% if request.user|has_group:"admin" or request.user|has_group:"dispatch" %}
+                                                    <a class="dropdown-item" href="{% url 'detail_container_out_gate' container.id %}">View Job</a>
+                                                    
+                                                    <a class="dropdown-item" href="{% url 'update_container_out_gate' container.id %}">Edit Job action</a>
+                                                    {% endif %}
+                                                    {% if request.user|has_group:"admin" %}
+                                                    <div class="dropdown-divider"></div>
+                                                    <form action="{% url 'delete_container_out_gate' container.id %}" method="post">
+                                                        {% csrf_token %}
+                                                        <button class="ml-3 btn btn-sm btn-danger">Delete Job</button>
+                                                    </form>
+                                                    {% endif %}
+                                                </div>
+                                                </div>
+                                        </td>
+                                        {% endif %}
+                                        {% if request.user|has_group:"admin" %}
+                                        
+                                        <td> <b>{{ container.user }}</b>
+                                        </td>
+                                        {% endif %}
+                                        <td>{{ container.container_number }}</td>
+                                        <td>{{ container.created_on|date:"M d h:i A"  }}</td>
+                                        <td>
+                                            {% if container.trucking_company == 'trump transport' %}
+                                                {{ container.trucking_company }}
+                                            {% elif container.outer_company.id == 1 %}
+                                                {{ container.outer_company_manual }} 
+                                            {% else %}
+                                                {{ container.outer_company }} 
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if container.trucking_company == 'trump transport' %}
+                                                {{ container.truck_number }} 
+                                            {% else %}
+                                                {{ container.manual_truck_number }} 
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ container.chassis_number }}</td>
+                                        <td>{{ container.comments }}</td>
+                                        
+                                        <td>{{ container.total_days }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {% else %}
+                    <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
+                        <div class="widget-header">
+                            <h5>No results found</h5>
+                         </div>
+                    </div>
+                    {% endif %}
+                    
+                    {% else %}
+
+                    <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
+                        <div class="widget-header">
+                            <div class="row">
+                               <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                  <h3>Out Gate Information - {{ count }} </h3>
+                               </div>
+                            </div>
+                         </div>
+                        <div class="widget-content widget-content-area br-6">
+                            <table id="html5-extension" class="table table-striped table-hover non-hover text-center" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        {% if request.user|has_group:"admin" or request.user|has_group:"dispatch" %}
+                                        <th class="dt-no-sorting">Action</th>
+                                        {% endif %}
+                                        {% if request.user|has_group:"admin" %}
+                                        <th>User</th>
+                                        {% endif %}
+                                        <th>Container Number</th>
+                                        <th>Enter Date</th>
+                                        <th>Trucking  Company</th>
+                                        <th>Truck Number</th>
+                                        <th>Chassis Number(Out)</th>
+                                        <th>notes</th>
+                                        
+                                        <th>Days</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for container in container_out_gate %}
+                                    <tr>
+                                        {% if request.user|has_group:"admin" or request.user|has_group:"dispatch" %}
+                                        <td>
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-primary btn-sm dropdown-toggle dropdown-toggle-split" id="dropdownMenuReference1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-reference="parent">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuReference1">
+                                                    {% if request.user|has_group:"admin" or request.user|has_group:"dispatch" %}
+                                                    <a class="dropdown-item" href="{% url 'detail_container_out_gate' container.id %}">View Job</a>
+                                                    
+                                                    <a class="dropdown-item" href="{% url 'update_container_out_gate' container.id %}">Edit Job action</a>
+                                                    {% endif %}
+                                                    {% if request.user|has_group:"admin" %}
+                                                    <div class="dropdown-divider"></div>
+                                                    <form action="{% url 'delete_container_out_gate' container.id %}" method="post">
+                                                        {% csrf_token %}
+                                                        <button class="ml-3 btn btn-sm btn-danger">Delete Job</button>
+                                                    </form>
+                                                    {% endif %}
+                                                </div>
+                                                </div>
+                                        </td>
+                                        {% endif %}
+                                        {% if request.user|has_group:"admin" %}
+                                        
+                                        <td> <b>{{ container.user }}</b>
+                                        </td>
+                                        {% endif %}
+                                        <td>{{ container.container_number }}</td>
+                                        <td>{{ container.enter_date|date:"M d h:i A"  }}</td>
+                                        <td>
+                                            {% if container.trucking_company == 'trump transport' %}
+                                                {{ container.trucking_company }}
+                                            {% elif container.outer_company.id == 1 %}
+                                                {{ container.outer_company_manual }} 
+                                            {% else %}
+                                                {{ container.outer_company }} 
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if container.trucking_company == 'trump transport' %}
+                                                {{ container.truck_number }} 
+                                            {% else %}
+                                                {{ container.manual_truck_number }} 
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if not container.chassis_number %}
+                                            
+                                            {% else %}
+                                            {{ container.chassis_number }}
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ container.comments }}</td>
+                                        
+                                        <td>{{ container.total_days }}</td>
+                                        <!-- <td class="text-center"><a href="javascript:void(0);" class="bs-tooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x-circle table-cancel"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg></a></td> -->
+
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                                <thead>
+                                    <tr>
+                                        <th colspan = 12>Search Your Choice</th>
+                                    </tr>
+                                </thead>
+                                
+                            </table>
+                            <a href="" class="btn btn-info btn-lg btn-block mb-4 mr-2 ">Add More</a>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+
+                </div>
+        
+        <!--  END CONTENT AREA  -->
+
+<script>
+    $(document).ready(function() {
+    /*
+        Individual Column Search
+    */
+
+    // Setup - add a text input to each footer cell
+    $('#html5-extension tfoot tr th').each( function () {
+        var title = $(this).text();
+        $(this).html( '<input type="text" class="form-control" placeholder="Search '+title+'" />' );
+    } );
+
+    
+    
+    // Apply the search
+    table.columns().every( function () {
+        var that = this;
+ 
+        $( 'input', this.footer() ).on( 'keyup change', function () {
+            if ( that.search() !== this.value ) {
+                that
+                    .search( this.value )
+                    .draw();
+            }
+        } );
+    } );
+
+    });
+</script>
+        
+
+{% endblock content %}

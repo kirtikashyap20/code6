@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load has_group %}
+{% block content %}
+
+        <!--  BEGIN CONTENT AREA  -->
+        <div id="content" class="main-content locations">
+            <div class="layout-px-spacing">
+                
+                <div class="row layout-top-spacing" id="cancel-row">
+                
+                    <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
+                        <div class="widget-header">
+                            <div class="row">
+                               <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                  <h3>locations</h3>
+                               </div>
+                            </div>
+                         </div>
+                        <div class="widget-content widget-content-area br-6">
+                            <table id="html5-extension" class="table table-striped table-hover non-hover" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Location Name</th>
+                                        <th>Containers</th>
+                                        <th>Number of containers</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for loc in locations %}
+                                    <tr>
+                                        <td>{{ loc.yard_location }}</td>
+                                        {% comment %} <td style="word-wrap: break-word;min-width: 160px;max-width: 260px; overflow-x:auto">
+                                            {% for con in contianers %}
+                                                {% if loc.yard_location == con.yard_location%}
+                                                     
+                                                    <a class="badge badge-Secondary" href="{% url 'detail_container_in_gate' con.id %}">{{ con.container_number }}</a>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </td>
+                                        <td>{{ loc.number_of_entries }}</td> {% endcomment %}
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+
+                </div>
+        
+        <!--  END CONTENT AREA  -->
+
+
+        
+
+{% endblock content %}

@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+        <!--  BEGIN CONTENT AREA  -->
+        <div id="content" class="main-content">
+            <div class="layout-px-spacing">
+                
+                <div class="row layout-top-spacing" id="cancel-row">
+                
+                    <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
+                        <div class="widget-heading">
+                            <div class="dashboard-card-btn">
+                                <a class="btn btn-success mb-2" href="{% url 'add_trucking_company' %}">Add More</a>
+                                
+                                <h5 class="mt-4">Trucking Company</h5>
+                            </div>
+                        </div>
+                        <div class="widget-content widget-content-area br-6">
+                            <table id="html5-extension" class="table table-hover non-hover" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>id</th>
+                                        <th>Company Name</th>
+                                        <th>Compnay Phone</th>
+                                        <th>Compnay Email</th>
+                                        <th>Company Address</th>
+                                        <th class="dt-no-sorting">Action</th>
+                                       
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for company in trucking_company %}
+                                    <tr>
+                                        <td>{{ company.id }}</td>
+                                        <td>{{ company.company_name }}</td>
+                                        <td>{{ company.company_phone }}</td>
+                                        <td>{{ company.company_email }}</td>
+                                        <td>{{ company.company_address }}</td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <a type="button" href="{% url 'detail_trucking_company' company.company_name %}" class="btn btn-dark btn-sm">view</a>
+                                                <a type="button" href="{% url 'update_trucking_company' company.id %}" class="btn btn-dark btn-sm">Edit</a>
+                                                <button type="button" href="{% url 'delete_trucking_company' company.id %}" class="btn btn-dark btn-sm dropdown-toggle dropdown-toggle-split" id="dropdownMenuReference1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-reference="parent">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x-circle table-cancel"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+                                                </button>
+                                            </div>
+                                        </td>
+                                        
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                                <thead>
+                                    <tr>
+                                        <th colspan = 12>Search Your Choice</th>
+                                    </tr>
+                                </thead>
+                               
+                            </table>
+                            <a href="{% url 'add_trucking_company' %}" class="btn btn-outline-warning btn-lg btn-rounded btn-block mb-4 mr-2 ">Add More</a>
+                        </div>
+                    </div>
+
+                </div>
+
+                </div>
+        <div class="footer-wrapper">
+                <div class="footer-section f-section-1">
+                    <p class="">Copyright © 2021 <a target="_blank" href="https://designreset.com">Trump Transport</a>, All rights reserved.</p>
+                </div>
+                <div class="footer-section f-section-2">
+                    <p class="">Coded with <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg></p>
+                </div>
+            </div>
+        </div>
+        <!--  END CONTENT AREA  -->
+
+<script>
+    $(document).ready(function() {
+    /*
+        Individual Column Search
+    */
+
+    // Setup - add a text input to each footer cell
+    $('#html5-extension tfoot tr th').each( function () {
+        var title = $(this).text();
+        $(this).html( '<input type="text" class="form-control" placeholder="Search '+title+'" />' );
+    } );
+
+    
+ 
+    // Apply the search
+    table.columns().every( function () {
+        var that = this;
+ 
+        $( 'input', this.footer() ).on( 'keyup change', function () {
+            if ( that.search() !== this.value ) {
+                that
+                    .search( this.value )
+                    .draw();
+            }
+        } );
+    } );
+
+    });
+</script>
+        
+
+{% endblock content %}

@@ -1,0 +1,172 @@
+{% load static %}
+{% load has_group %}
+{% load mathfilters %}
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
+      <title>Trump Transport Portal</title>
+      <link rel="icon" type="image/x-icon" href="{% static 'assets/img/favicon.ico' %}"/>
+      <link href="{% static 'assets/css/loader.css'%}" rel="stylesheet" type="text/css" />
+      <script src="{% static 'assets/js/loader.js' %}"></script>
+      <link href="https://fonts.googleapis.com/css?family=Quicksand:400,500,600,700&display=swap" rel="stylesheet">
+      <link href="{% static 'bootstrap/css/bootstrap.min.css'%}" rel="stylesheet" type="text/css" />
+      <link href="{% static 'assets/css/plugins.css' %}" rel="stylesheet" type="text/css" />
+      <link href="{% static 'assets/css/apps/invoice-preview.css' %}" rel="stylesheet" type="text/css" />
+      <link href="{% static 'plugins/flatpickr/flatpickr.css' %}" rel="stylesheet" type="text/css">
+      <link href="{% static 'plugins/noUiSlider/nouislider.min.css' %}" rel="stylesheet" type="text/css">
+      <link href="{% static 'assets/css/scrollspyNav.css' %}" rel="stylesheet" type="text/css" />
+      <link href="{% static 'plugins/flatpickr/custom-flatpickr.css' %}" rel="stylesheet" type="text/css">
+      <link rel="stylesheet" type="text/css" href="{% static 'plugins/table/datatable/datatables.css' %}">
+      <link rel="stylesheet" type="text/css" href="{% static 'plugins/table/datatable/custom_dt_html5.css' %}">
+      <link rel="stylesheet" type="text/css" href="{% static 'plugins/table/datatable/dt-global_style.css' %}">
+      <link href="{% static 'plugins/apex/apexcharts.css' %}" rel="stylesheet" type="text/css">
+      <link rel="stylesheet" type="text/css" href="{% static 'plugins/table/datatable/custom_dt_miscellaneous.css' %}">
+      <link rel="stylesheet" type="text/css" href="{% static 'assets/css/forms/theme-checkbox-radio.css' %}">
+      <link rel="stylesheet" type="text/css" href="{% static 'plugins/table/datatable/dt-global_style.css' %}">
+      <link href="{% static 'plugins/noUiSlider/custom-nouiSlider.css' %}" rel="stylesheet" type="text/css">
+      <link href="{% static 'plugins/bootstrap-range-Slider/bootstrap-slider.css' %}" rel="stylesheet" type="text/css">
+      <link href="{% static 'assets/css/pages/error/style-400.css' %}" rel="stylesheet" type="text/css" />
+      <!-- END GLOBAL MANDATORY STYLES -->
+   </head>
+   <body>
+      <!--  BEGIN CONTENT AREA  -->
+      
+      <div class="layout-px-spacing">
+         <div class="row layout-top-spacing justify-content-md-center" id="cancel-row">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing text-center mt-3">
+               <img alt="image-404" src="{% static 'assets/img/logo-trump.png' %}" style="width: 123px;" class="mb-5 mx-auto">
+            </div>
+            <div class=" col-xl-8 col-lg-8 col-md-8 col-sm-12 layout-spacing">
+               <div class="widget widget-table-two p-5">
+                  <div class="widget-heading">
+                     <h5 class="">Check container location</h5>
+                     <div class="dashboard-card-btn">
+                     </div>
+                  </div>
+                  <div class="widget-content">
+                     <div class="table-responsive">
+                       
+                        <form class="form-vertical" action="{% url 'driver_records' %}" method="GET" value="{{request.GET.container_number}}">
+                           <div class="input-group">
+                              <input class="form-control no_special_char" type="text" name="container_number" value="{{request.GET.container_number}}" placeholder="Search Container"/>
+                              <div class="input-group-append">
+                                 <input type="submit" name="submit" value="Search" class="btn btn-primary"/>
+                              </div>
+                           </div>
+                        </form>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            {% if submitbutton == 'Search' and request.GET.q != '' %}
+               {% if results  %}
+            <div class="col-xl-8 col-lg-8 col-sm-12  layout-spacing">
+               <div class="widget-header text-center mb-3 mt-4">
+                  <h3>Container Information</h3>
+               </div>
+               <div class="widget-content widget-content-area br-6">
+                  <table class="table " style="width:100%">
+                     {% for data in results %}
+                        
+                     <tr>
+                        <td>
+                           <b>Container Number: </b>
+                        </td>
+                        <td>
+                           {{ data.container_number }}
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <b>Yard location: </b>
+                        </td>
+                        <td>
+                           {{ data.yard_location }}
+                        </td>
+                     </tr>
+                     
+                     {% endfor %}
+                  </table>
+                  <img class="img-responsive" src="{% static 'assets/img/YARD_MAP.png' %}" style="width: 100%;">
+                  
+               </div>
+               
+            </div>
+            
+            {% else %}
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing text-center mt-3">
+               <h1>No results found</h1>
+            </div>
+               
+            {% endif %}
+            {% endif %}
+         
+      
+
+
+
+
+
+
+         {% if cont  %}
+            <div class="col-xl-8 col-lg-8 col-sm-12  layout-spacing">
+               <div class="widget-header text-center mb-3 mt-4">
+                  <h3>similar to your search</h3>
+               </div>
+               <div class="widget-content widget-content-area br-6">
+                  <table class="table " style="width:100%">
+                     {% for data in cont %}
+                     <thead>
+                        <th>Container Number</th>
+                        <th>yard location</th>
+                     </thead>
+                     <tr>
+                        <td>
+                           {{ data.container_number }}
+                        </td>
+                        <td>
+                           {{ data.yard_location }}
+                        </td>
+                     </tr>
+                                        
+                     {% endfor %}
+                  </table>
+                  <img class="img-responsive" src="{% static 'assets/img/YARD_MAP.png' %}" style="width: 100%;">
+                  
+               </div>
+               
+            </div>
+            
+            
+            {% endif %}
+         </div>
+
+
+
+
+
+
+      <!--  END CONTENT AREA  -->
+      <!-- BEGIN GLOBAL MANDATORY SCRIPTS -->
+      <script src="{% static 'assets/js/libs/jquery-3.1.1.min.js' %}"></script>
+      <script src="{% static 'bootstrap/js/popper.min.js' %}"></script>
+      <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+      <script src="{% static 'plugins/perfect-scrollbar/perfect-scrollbar.min.js' %}"></script>
+      <script src="{% static 'assets/js/app.js' %}"></script>
+      <script>
+         $(document).ready(function() {
+             App.init();
+         });
+      </script>
+      <script src="{% static 'assets/js/custom.js' %}"></script>
+      <script src="{% static 'plugins/table/datatable/datatables.js' %}"></script>
+      <script src="{% static 'plugins/table/datatable/button-ext/dataTables.buttons.min.js' %}"></script>
+      <script src="{% static 'plugins/table/datatable/button-ext/jszip.min.js' %}"></script>    
+      <script src="{% static 'plugins/table/datatable/button-ext/buttons.html5.min.js' %}"></script>
+      <script src="{% static 'plugins/table/datatable/button-ext/buttons.print.min.js' %}"></script>
+      <script src="{% static 'plugins/table/datatable/custom_miscellaneous.js' %}"></script>
+   </body>
+</html>

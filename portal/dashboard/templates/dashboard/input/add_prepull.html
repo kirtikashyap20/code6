@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}  
+<div id="content" class="main-content">
+   <div class="layout-px-spacing">
+      <div class="row layout-spacing">
+         <div id="flActionButtons" class="col-lg-12">
+            <!-- <h3>Add Chassis Number</h3> -->
+            <div class="statbox widget box box-shadow">
+               <div class="widget-header">
+                  <div class="row">
+                     <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                        <h3>Add Prepull</h3>
+                     </div>
+                  </div>
+               </div>
+               <div class="widget-content widget-content-area">
+                  <p class="text-danger">{{ err }}</p>
+                  <form id="add_container_in_gate" class="form-vertical in-gate" action="" method="post">
+                    {% csrf_token %}
+                    {{ add_prepull }}
+                    <input type="submit" value="Submit" class="btn btn-success float-left  mt-3">
+                  </form>
+                  <a class="btn btn-primary mt-3 ml-2" href="{% url 'prepull' %}">cancel</a>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <!--  END CONTENT AREA  -->
+</div>
+<!-- END MAIN CONTAINER -->
+
+
+
+{% endblock %}

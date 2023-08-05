@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div id="content" class="main-content">
+   <div class="layout-px-spacing">
+      <div class="row layout-spacing">
+         <div id="flActionButtons" class="col-lg-12">
+            <div class="statbox widget box box-shadow">
+               <div class="widget-header">
+                  <div class="row">
+                     <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                        <h5>Are you sure to delete details for Driver?: {{ data.driver_name }} </h5>
+                     </div>
+                  </div>
+               </div>
+               <div class="widget-content widget-content-area mt-3">
+                <form action="{% url 'delete_driver' data.id %}" method="post">
+                    {% csrf_token %}
+                    
+                    <input type="submit" class="btn btn-danger mb-2" value="Delete">
+                    <button href="{% url 'driver' %}"  class="btn btn-outline-primary mb-2">Cancel</button> 
+                </form>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <!--  END CONTENT AREA  -->
+</div>
+
+
+
+{% endblock %}

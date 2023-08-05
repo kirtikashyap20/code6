@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load has_group %}
+{% block content %}
+<!--  BEGIN CONTENT AREA  -->
+<div id="content" class="main-content">
+   <div class="layout-px-spacing">
+      <div class="row layout-top-spacing">
+         <div class="col-xl-2 col-lg-4 col-md-6 col-sm-12 col-12 text-center" style="margin-bottom:24px; ">
+            <div class="statbox widget box box-shadow">
+               <a class="btn btn-lg btn-primary mt-2" href="{% url 'add_container_in_gate' %}"> <h5 class="text-light">In Gate Container</h5></a>
+            </div>
+         </div>
+         <div class="col-xl-2 col-lg-4 col-md-6 col-sm-12 col-12 text-center" style="margin-bottom:24px; ">
+            <div class="statbox widget box box-shadow">
+               <a class="btn btn-lg btn-info mt-2" href="{% url 'container_in_gate' %}"> <h5 class="text-light">View In Gate Container</h5></a>
+            </div>
+         </div>
+         {% if request.user|has_group:"admin" or request.user|has_group:"gate" or request.user|has_group:"crane" %}
+         <div class="col-xl-2 col-lg-4 col-md-6 col-sm-12 col-12 text-center" style="margin-bottom:24px;">
+            <div class="statbox widget box box-shadow">
+               <a class="btn btn-lg btn-warning mt-2" href="{% url 'add_gate_check' %}"> <h5 class="text-light">Add In/out trucks</h5></a>
+            </div>
+         </div>
+         {% endif %}
+         {% if request.user|has_group:"admin" or request.user|has_group:"dispatch" %}
+         <div class="col-xl-2 col-lg-4 col-md-6 col-sm-12 col-12 text-center" style="margin-bottom:24px;">
+            <div class="statbox widget box box-shadow">
+               <a class="btn btn-lg btn-secondary mt-2" href="{% url 'gate_check' %}"> <h5 class="text-light">View In/out trucks</h5></a>
+            </div>
+         </div>
+         {% endif %}
+         <div class="col-xl-2 col-lg-4 col-md-6 col-sm-12 col-12 text-center" style="margin-bottom:24px;">
+            <div class="statbox widget box box-shadow">
+               <a class="btn btn-lg btn-success mt-2" href="{% url 'search_container' %}"> <h5 class="text-light">Search Containers</h5></a>
+            </div>
+         </div>
+         <div class="col-xl-2 col-lg-4 col-md-6 col-sm-12 col-12 text-center" style="margin-bottom:24px;">
+            <div class="statbox widget box box-shadow">
+               <a class="btn btn-lg btn-dark mt-2" href="{% url 'locations' %}"> <h5 class="text-light">See all locations</h5></a>
+            </div>
+         </div>
+         <div class="col-xl-2 col-lg-4 col-md-6 col-sm-12 col-12 text-center" style="margin-bottom:24px;">
+            <div class="statbox widget box box-shadow">
+                <h5 >Prepull</h5>
+                <a class="btn btn-lg btn-secondary mt-2" href="{% url 'add_prepull' %}">Add</a>
+               <a class="btn btn-lg btn-secondary mt-2" href="{% url 'prepull' %}">View</a>
+            </div>
+         </div>
+         {% if request.user|has_group:"admin" or request.user|has_group:"dispatch" %}
+         <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12">
+            <div class="widget widget-activity-four">
+                <div class="widget-heading">
+                    <h5 class="text-center">Tasks Assigned</h5>
+                    <form class="form-vertical"  action="{% url 'add_task' %}" method="post">
+                     {% csrf_token %}
+                     {{ form }}
+                     <input type="submit" value="Submit" class="btn btn-block btn-primary mt-3">
+                   </form>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        <div class="col-xl-6 col-lg-8 col-md-12 col-sm-12 col-12">
+            <div class="widget widget-activity-four">
+                <div class="widget-content">
+                    <div class="mt-container mx-auto">
+                        <div class="timeline-line">
+                           {% for task in tasks %}
+                           <div class="item-timeline timeline-primary">
+                                <div class="t-dot" data-original-title="" title="">
+                                </div>
+                                <div class="t-text">
+                                    <p>{{ task.task }}</p>
+                                    <span class="badge">{{ task.status }}</span>
+                                    <p class="t-time">{{ task.user }}</p>
+                                </div>
+                           </div>
+                           {% endfor %}
+                        </div>
+                    </div>
+                    {% comment %} <a class="btn btn-outline-primary btn-block" href="{% url 'tasks' %}"><b>View All</b></a> {% endcomment %}
+                </div>
+            </div>
+        </div>
+      </div>
+   </div>
+</div>
+<!--  END CONTENT AREA  -->
+</div>
+<!-- END MAIN CONTAINER -->
+{% endblock content %}

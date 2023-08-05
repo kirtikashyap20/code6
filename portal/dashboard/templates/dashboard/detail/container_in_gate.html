@@ -1,0 +1,260 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load mathfilters %}
+{% load has_group %}
+{% block content %}
+<div id="content" class="main-content">
+    <div class="layout-px-spacing">
+        <div class="row invoice layout-top-spacing layout-spacing">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                
+                <div class="doc-container">
+
+                    <div class="row">
+
+                        <div class="col-xl-9">
+
+                            <div class="invoice-container">
+                                <div class="invoice-inbox">
+                                    
+                                    <div id="ct" class="">
+                                        
+                                        <div class="invoice-00001">
+                                            <div class="content-section">
+
+                                                <div class="inv--head-section inv--detail-section">
+                                                
+                                                    <div class="row">
+                                                    
+                                                        <div class="col-sm-6 col-12 mr-auto">
+                                                            <div class="d-flex">
+                                                                <img class="company-logo" src="{% static 'assets/img/logo-trump.png' %}" alt="company">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-sm-6 text-sm-right">
+                                                            <p class="inv-list-number"><span class="inv-title">Trump Transport </span> <span class="inv-number"># 0{{ data.id }}</span></p>
+                                                        </div>
+
+                                                        <div class="col-sm-6 align-self-center mt-3">
+                                                            <p class="inv-street-addr">2095 CODLIN CREST ETOBICOKE ON</p>
+                                                            <p class="inv-email-address">eir@trumptransport.com</p>
+                                                            <p class="inv-email-address">+1 416 798 6601</p>
+                                                        </div>
+                                                        <div class="col-sm-6 align-self-center mt-3 text-sm-right">
+                                                            <p class="inv-created-date"><span class="inv-title">In Gate Date : </span> <span class="inv-date">{{ data.created_on }}</span></p>
+                                                            <p class="inv-due-date"><span class="inv-title">Devlivery Date : </span> <span class="inv-date">{{ data.delivery_date }}</span></p>
+                                                        </div>
+                                                    
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12 mt-4 text-center">
+                                                            <h2>InterChange Report</h2>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                </div>
+                                                <div class="inv--detail-section inv--customer-detail-section">
+
+                                                    <div class="row">
+                                                        <div class="col-12 text-center">
+                                                            <H5 class=" ">{{ data.container_status }} : IN GATE</H5>
+                                                        </div>
+                                                        <!-- <div class="col-xl-5 col-lg-5 col-md-5 col-sm-5 align-self-center order-sm-0 order-1 inv--payment-info">
+                                                            <h5 class=" inv-title">Payment Info:</h5>
+                                                        </div> -->
+                                                        
+                                                        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-5">
+                                                            <table class="table table-responsive table-hover non-hover" style="width:100%">
+                                                                <tr>
+                                                                    <td>
+                                                                        <b>Container Number: </b>
+                                                                    </td>
+                                                                    <td>
+                                                                        {{ data.container_number }}
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <b>Truck Company: </b>
+                                                                    </td>
+                                                                    <td>
+                                                                        {% if data.trucking_company == 'trump transport' %}
+                                                                            {{ data.trucking_company }} 
+                                                                        {% else %}
+                                                                            {% if data.outer_company_manual == None %}
+                                                                                {{ data.outer_company }}
+                                                                            {% else %}
+                                                                                {{ data.outer_company_manual }}
+                                                                            {% endif %}
+                                                                        {% endif %}
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <b>Truck Number: </b>
+                                                                    </td>
+                                                                    <td>
+                                                                        {% if data.trucking_company == 'trump transport' %}
+                                                                            {{ data.truck_number }} 
+                                                                        {% else %}
+                                                                            {{ data.manual_truck_number }} 
+                                                                        {% endif %}
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <b>Chasiss Number: </b>
+                                                                    </td>
+                                                                    <td>
+                                                                        {{ data.chassis_number }}
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <b>Weight: </b>
+                                                                    </td>
+                                                                    <td>
+                                                                        {% if data.weight_type == 'kg' %}
+                                                                            {{ data.weight }} KG
+                                                                        {% endif %}
+                                                                        {% if data.weight_type == 'lbs' %}
+                                                                            {{ data.weight|div:2.205|floatformat:3 }} KG
+                                                                        {% endif %}
+                                                                        {% if data.weight_type == 'null' %}
+                                                                            {{ data.weight }} 
+                                                                        {% endif %} 
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                        <div class="col-xl-2 col-lg-2 col-md-0 col-sm-2">
+
+                                                        </div>
+                                                        
+                                                        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-5 col-12 order-sm-0 order-1">
+                                                            <div class="inv--payment-info">
+                                                                <table class="table table-hover non-hover" style="width:100%">
+                                                                    <tr>
+                                                                        <td>
+                                                                            <b>Steamship: </b>
+                                                                        </td>
+                                                                        <td>
+                                                                            {{ data.steamshiping_line }}
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <b>Booking Number: </b>
+                                                                        </td>
+                                                                        <td>
+                                                                            {{ data.booking_number }}
+                                                                        </td>
+                                                                    </tr>   
+                                                                    <tr>
+                                                                        <td>
+                                                                            <b>Seal Number: </b>
+                                                                        </td>
+                                                                        <td>
+                                                                            {{ data.seal_number }}
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <b>Container Type & Size: </b>
+                                                                        </td>
+                                                                        <td>
+                                                                            {{ data.containerType }}
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <b>Container Status: </b>
+                                                                        </td>
+                                                                        <td>
+                                                                            {{ data.container_status }}
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                                
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 mt-4 border rounded p-3 ">
+                                                            <p><b>Notes:</b> {{ data.special_notes_in }}</p>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                    
+                                                </div>
+                                                
+                                                <div class="inv--note">
+
+                                                    <div class="row mt-4">
+                                                        <div class="col-sm-12 col-12 order-sm-0 order-1">
+                                                            <p>Note: FOR DELIVERING/RECEIVING CARRIER, THE UNDERSIGNED, AS AGENT OR REPRESNTATIVE HAS DELIVERED/RECEIVED THE
+                                                                SUBJECT UNIT IN GOOD CONDITION EXCEPT AS NOTED ABOVE PURSUANT TO APPLICABLE TEMRS AND CONDITIONS ON FILE</p>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                        </div> 
+                                        
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-xl-3">
+
+                            <div class="invoice-actions-btn">
+
+                                <div class="invoice-action-btn">
+
+                                    <div class="row">
+                                        <div class="col-xl-12 col-md-3 col-sm-6">
+                                            <a href="{% url 'update_yard_location' data.id %}" class="btn btn-success btn-send">Add Yard Location</a>
+                                        </div>
+                                        <div class="col-xl-12 col-md-3 col-sm-6">
+                                            <a href="{% url 'gate_out' data.id %}" class="btn btn-primary btn-send">Gate Out Container</a>
+                                        </div>
+                                        {% if request.user|has_group:"admin" or request.user|has_group:"dispatch" %}
+                                        <div class="col-xl-12 col-md-3 col-sm-6">
+                                            <a href="javascript:void(0);" class="btn btn-secondary btn-print  action-print">Download / Print</a>
+                                        </div>
+                                        <div class="col-xl-12 col-md-3 col-sm-6">
+                                            <a href="{% url 'update_container_in_gate' data.id %}" class="btn btn-dark btn-edit">Edit</a>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xl-12 col-md-3 col-sm-6 mt-5">
+                                            <img class="img-responsive" src="{% static 'assets/img/YARD_MAP.png' %}" style="height:55vh">
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                
+                            </div>
+                            
+                        </div>
+
+
+                    </div>
+                    
+                    
+                </div>
+
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,61 @@
+{% load static %}
+{% load has_group %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
+    <title>Trump Transport Portal</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'assets/img/favicon.ico' %}"/>
+    <!-- BEGIN GLOBAL MANDATORY STYLES -->
+    <link href="https://fonts.googleapis.com/css?family=Quicksand:400,500,600,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/forms.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'assets/css/plugins.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'assets/css/authentication/form-1.css' %}" rel="stylesheet" type="text/css" />
+    <!-- END GLOBAL MANDATORY STYLES -->
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/forms/theme-checkbox-radio.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/forms/switches.css' %}">
+</head>
+<body class="form">
+    <div class="form-container">
+        <div class="form-form">
+            <div class="form-form-wrap">
+                <div class="form-container">
+                    <div class="form-content">
+                        <h1 class=" text-center mb-5">Select role</h1>
+                        {% if request.user|has_group:"admin"  or request.user|has_group:"gate" or request.user|has_group:"crane" %}   
+                        <form action="{% url 'gate_user' %}" method="post">
+                            {% csrf_token %}
+                            <button class="btn btn-block btn-info btn-lg mb-4">Login as Gate User</button>
+                        </form>
+                        <form action="{% url 'crane_user' %}" method="post">
+                            {% csrf_token %}
+                            <button class="btn btn-block btn-secondary btn-lg mb-4">Login as Crane User</button>
+                        </form> 
+                        {% endif %}  
+                        {% if request.user|has_group:"admin"  or request.user|has_group:"punch" %}   
+                        <a href="{% url 'add_punch' %}" class="btn btn-lg btn-block btn-warning mb-4">Login as Punch User</a>     
+                        {% endif %}
+                        {% if request.user|has_group:"admin"  or request.user|has_group:"dispatch" %}   
+                        <a href="{% url 'prepull' %}" class="btn btn-lg btn-block btn-success mb-4">Login as Dispatch User</a>     
+                        {% endif %}
+                        {% if request.user|has_group:"admin"  or request.user|has_group:"billing" %}   
+                        <a href="{% url 'users' %}" class="btn btn-lg btn-block btn-primary mb-4">Login as Billing User</a>     
+                        {% endif %}
+                        <p class="terms-conditions">© 2022 All Rights Reserved for <a href="">Trump Transport</a>.
+
+                    </div>                    
+                </div>
+            </div>
+        </div>
+        <div class="form-image" style="background-image:url({% static 'assets/img/login.jpg' %})">
+            <div class="l-image">
+            </div>
+        </div>
+    </div>
+</body>
+</html>

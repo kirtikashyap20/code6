@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load mathfilters %}
+{% load has_group %}
+{% block content %}
+<div id="content" class="main-content">
+   <div class="layout-px-spacing">
+      <h2 class="text-center mt-4 mb-2">{{ company_name }} - {{ amount.invoice__sum }} </h2>
+      <div class="row invoice layout-top-spacing layout-spacing">
+         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
+            <div class="widget widget-table-two">
+               <div class="widget-content mt-2">
+                  <form class="form-vertical" action="{% url 'search_company'  %}" method="GET" value="{{request.GET}}">
+                     <div class="input-group">
+                        <input type="hidden" class="form-control" name="company_name" value="{{ company_name}}">
+                        <input id="basicFlatpickr" name="ofrom" value="{{request.GET.ofrom}}" class="form-control flatpickr flatpickr-input active" type="text" placeholder="Select Date..">
+                        <input id="fromdate" name="oto" value="{{request.GET.oto}}" class="form-control flatpickr flatpickr-input active" type="text" placeholder="Select Date..">
+                        <div class="input-group-append">
+                           <input type="submit" name="submit" value="Search" class="btn btn-primary"/>
+                        </div>
+                     </div>
+                  </form>
+               </div>
+            </div>
+         </div>
+         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="widget widget-table-two mb-4">
+               <div class="widget-content">
+                  {% if submitbutton == 'Search' %}
+                  {% if results %}
+                  <table id="html5-extension" class="table table-striped non-hover text-center" style="width:100%">
+                     <thead>
+                        <tr>
+                           <th class="dt-no-sorting">Action</th>
+                           <th>Cont. No.</th>
+                           <th>Type</th>
+                           <th>Enter Date</th>
+                           <th>Out Date</th>
+                           <th>Days</th>
+                           <th>amount</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        {% for container in results %}
+                        <tr>
+                           <td>
+                              <div class="btn-group">
+                                 <button type="button" class="btn btn-dark btn-sm dropdown-toggle dropdown-toggle-split" id="dropdownMenuReference1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-reference="parent">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down">
+                                       <polyline points="6 9 12 15 18 9"></polyline>
+                                    </svg>
+                                 </button>
+                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuReference1">
+                                    {% if request.user|has_group:"admin" or request.user|has_group:"dispatch" %}
+                                    <a class="dropdown-item" href="{% url 'detail_container_out_gate' container.id %}">View Job</a>
+                                    <a class="dropdown-item" href="{% url 'update_container_out_gate' container.id %}">Edit Job action</a>
+                                    {% endif %}
+                                    {% if request.user|has_group:"admin" %}
+                                    <div class="dropdown-divider"></div>
+                                    <form action="{% url 'delete_container_out_gate' container.id %}" method="post">
+                                       {% csrf_token %}
+                                       <button class="ml-3 btn btn-sm btn-danger">Delete Job</button>
+                                    </form>
+                                    {% endif %}
+                                 </div>
+                              </div>
+                           </td>
+                           <td>{{ container.container_number }}</td>
+                           <td>{{ container.type }}</td>
+                           <td>{{ container.enter_date }}</td>
+                           <td>{{ container.created_on }}</td>
+                           <td>{{ container.total_days }}</td>
+                           <td>${{ container.invoice }}</td>
+                        </tr>
+                        {% endfor %}
+                     </tbody>
+                     
+                  </table>
+                  {% else  %}
+                  <h2> No results found </h2>
+                  {% endif  %}
+                  {% else  %}
+                  <table id="html5-extension" class="table table-striped non-hover text-center" style="width:100%">
+                     <thead>
+                        <tr>
+                           <th class="dt-no-sorting">Action</th>
+                           <th>Cont. No.</th>
+                           <th>Type</th>
+                           <th>Enter Date</th>
+                           <th>Out Date</th>
+                           <th>Days</th>
+                           <th>amount</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        {% for container in data %}
+                        <tr>
+                           <td>
+                              <div class="btn-group">
+                                 <button type="button" class="btn btn-dark btn-sm dropdown-toggle dropdown-toggle-split" id="dropdownMenuReference1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-reference="parent">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down">
+                                       <polyline points="6 9 12 15 18 9"></polyline>
+                                    </svg>
+                                 </button>
+                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuReference1">
+                                    {% if request.user|has_group:"admin" or request.user|has_group:"dispatch" %}
+                                    <a class="dropdown-item" href="{% url 'detail_container_out_gate' container.id %}">View Job</a>
+                                    <a class="dropdown-item" href="{% url 'update_container_out_gate' container.id %}">Edit Job action</a>
+                                    {% endif %}
+                                    {% if request.user|has_group:"admin" %}
+                                    <div class="dropdown-divider"></div>
+                                    <form action="{% url 'delete_container_out_gate' container.id %}" method="post">
+                                       {% csrf_token %}
+                                       <button class="ml-3 btn btn-sm btn-danger">Delete Job</button>
+                                    </form>
+                                    {% endif %}
+                                 </div>
+                              </div>
+                           </td>
+                           <td>{{ container.container_number }}</td>
+                           <td>{{ container.type }}</td>
+                           <td>{{ container.enter_date }}</td>
+                           <td>{{ container.created_on }}</td>
+                           <td>{{ container.total_days }}</td>
+                           <td>${{ container.invoice }}</td>
+                        </tr>
+                        {% endfor %}
+                     </tbody>
+                    
+                  </table>
+                  {% endif  %}
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+{% endblock %}
