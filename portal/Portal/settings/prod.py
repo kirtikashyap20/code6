@@ -8,6 +8,14 @@ from .common import *
 DEBUG = True
 SECRET_KEY = os.environ['SECRET_KEY']
 ALLOWED_HOSTS = ['35.182.169.92','.vercel.app', '127.0.0.1']
-DATABASES = {}
+DATABASES = {
+   'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'heavyard',
+        'USER': 'admin',
+        'PASSWORD': 'Softyard@12#',
+        'HOST': 'localhost',
+        'PORT': '3306',
+}
 }
 print('prod.py')
