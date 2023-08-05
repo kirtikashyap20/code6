@@ -10,7 +10,7 @@ SECRET_KEY = os.environ['SECRET_KEY']
 #ALLOWED_HOSTS = ['trump-prod.herokuapp.com','trumpportal.herokuapp.com','127.0.0.1','trump-staging.herokuapp.com']
 #ALLOWED_HOSTS = ['52.60.131.109','*','172.31.3.61']
 
-ALLOWED_HOSTS = ['35.182.169.92','https://code6-ebon.vercel.app/']
+ALLOWED_HOSTS = ['35.182.169.92','.vercel.app', '127.0.0.1']
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
